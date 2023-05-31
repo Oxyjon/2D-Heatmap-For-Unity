@@ -6,7 +6,7 @@
 - JSON saving backend with front end creation tool
 
 ## INSTALLAION
-- Navigate to the [Releases](https://www.google.com.au) tab in this repository and import the package file
+- Navigate to the [Releases](https://github.com/Oxyjon/Hydra-Heatmap-For-Unity/releases/tag/V1.0) tab in this repository and import the package file
 
 ## HOW TO
 
