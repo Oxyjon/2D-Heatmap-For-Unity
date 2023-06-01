@@ -4792,7 +4792,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollContent: {fileID: 772218639}
-  confirmationPrefab: {fileID: 673928015062395181, guid: 7f3073bc352cc22448c2631fddae9e50, type: 3}
+  fileContainerPrefab: {fileID: 673928015062395181, guid: 7f3073bc352cc22448c2631fddae9e50, type: 3}
 --- !u!1 &1556901175
 GameObject:
   m_ObjectHideFlags: 0

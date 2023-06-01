@@ -5,8 +5,11 @@
 - Event based heatmap tracking
 - JSON saving backend with front end creation tool
 
-## INSTALLAION
-- Navigate to the [Releases](https://github.com/Oxyjon/Hydra-Heatmap-For-Unity/releases/tag/V1.0) tab in this repository and import the package file
+## INSTALLATION
+- Navigate to the [Releases](https://github.com/Oxyjon/Hydra-Heatmap-For-Unity/releases/tag/V1.1) tab in this repository and import the package file
+
+- After importing the package you may get an error that is related to plastic scm. If you recieve this error you can restart your project to resolve or disable the `Assembly Version Validation` in the player settings:
+![screenshot](screenshots/plasticSCMError.png) 
 
 ## HOW TO
 
@@ -18,9 +21,9 @@ First, Add the `HeatmapManager` Prefab to your scene which is located in the Pre
 
 The Heatmap can record data two seperate ways which is a layer based format and an event based format. When the `HeatMapManager` is configured and in scene, on startup a settings file will be generated and on exit everything that you have listed to recorded will be saved into JSON files. It will save individual objects as well as everything total on the layer. These files are used for the front end tool to create the heatmap to which you can configure and generate based on what files you upload to the application:  
  
-**THESE FILES ARE SAVED IN "C://USERS/DOCUMENTS/HYDRA/"**  
+**These Files Are Saved In "C://users/documents/Hydra/"**  
 
-**LAYER:**  
+**Layer:**  
 
 ![screenshot](screenshots/InEditor.png)  
 
@@ -37,7 +40,7 @@ The `HeatmapManager` prefab has a child camera attached which is used for an ove
 The system doesn't track options that are added and removed at runtime. There is a helper function in the HeatmapManager that you will need to call:  
 
 **EXAMPLE**  
-- **ADDING OBJECTS FUNCTION**  
+- **Adding Objects Function**  
 ```csharp
 		public void AddRuntimeObjectToTrack(GameObject _obj)
 		{
@@ -49,7 +52,7 @@ The system doesn't track options that are added and removed at runtime. There is
 			}
 		}
 ```
-- **ADDING OBJECTS EXAMPLE**  
+- **Adding Objects Example**  
 The function needs to be called after being instantiated.  
 ```csharp
         private void Shoot()
@@ -58,7 +61,7 @@ The function needs to be called after being instantiated.
 			HeatmapManager.Instance.AddRuntimeObjectToTrack(bullet.gameObject);	
 		}
 ```
-- **REMOVING OBJECTS**  
+- **Removing Objects**  
 ```csharp
 		public void LogDestroyedObject(GameObject obj)
 		{
@@ -73,7 +76,7 @@ The function needs to be called after being instantiated.
 			Destroy(obj);
 		}
 ```
-- **REMOVING OBJECTS EXAMPLE**  
+- **Removing Objects Example**  
 The functions needs to be called before being destroyed.  
 ```csharp
 		private void OnCollisionEnter2D(Collision2D col)
@@ -86,7 +89,7 @@ The functions needs to be called before being destroyed.
 **EVENT:**  
 Any event you would like to record called be recorded with called Log function. The function requires a position and an event name.  
 **EXAMPLE**  
-- **LOG EVENT**  
+- **Log Event**  
 ```csharp
 		public void AddHeatmapEvent(string eventName, Vector3 position)
 		{
@@ -101,7 +104,7 @@ Any event you would like to record called be recorded with called Log function. 
 			eventPositions[eventName].Add(position);
 		}
 ```
-- **LOG EVENT EXAMPLE**  
+- **Log Event Example**  
 ```csharp
 		private void Shoot()
 		{
@@ -110,6 +113,27 @@ Any event you would like to record called be recorded with called Log function. 
 			bullet.Fire(transform.up);
 			HeatmapManager.Instance.AddHeatmapEvent("Player Shoot", transform.position);
 			
+		}
+```
+**Creation**
+To Create any heatmap you will need to call the log function which will create all of the logged data
+**Log Code**
+```csharp
+		public void LogAllData()
+		{
+			if(SceneManager.GetActiveScene().name != "FrontEnd")
+			{
+				CancelInvoke(nameof(UpdateHeatmap));
+				CreateHeatmapLogsOnExit();
+			}
+		}
+```
+**Log Example**
+```csharp
+		public void Retry()
+		{
+			HeatmapManager.Instance.LogAllData();
+			SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 		}
 ```
 
